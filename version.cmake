@@ -3,12 +3,37 @@ message(STATUS "Resolving GIT Version")
 set(_commit_hash "unknown")
 
 # Build number incrementing
-set(_version_release 0)
-set(_version_major 1)
-set(_version_minor 1)
-set(_version_patch 12)
+file(READ ${top_dir}/src/version.h.in ver)
 
-#MATH(EXPR _build_number "${_build_number}+1")
+string(REGEX MATCH "VERSION_RELEASE ([0-9]*)" _ ${ver})
+set(ver_release ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ ${ver})
+set(ver_major ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_MINOR ([0-9]*)" _ ${ver})
+set(ver_minor ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_PATCH ([0-9]*)" _ ${ver})
+set(ver_patch ${CMAKE_MATCH_1})
+
+# increment the build number
+set(prev_patch_ver ${ver_patch})
+MATH(EXPR ver_patch "${ver_patch}+1")
+
+#STRING(REGEX REPLACE <pattern> <replacement string> <target variable> <source string>)
+
+string(REGEX REPLACE "VERSION_PATCH ${prev_patch_ver}" "VERSION_PATCH ${ver_patch}" new_ver ${ver})
+
+file(WRITE ${top_dir}/src/version.h.in ${new_ver})
+
+message(STATUS "This version: ${ver_release}.${ver_major}.${ver_minor}.${ver_patch}")
+
+# Version variables
+set(_version_release ${ver_release})
+set(_version_major ${ver_major})
+set(_version_minor ${ver_minor})
+set(_version_patch ${ver_patch})
 
 find_package(Git)
 
@@ -35,22 +60,3 @@ configure_file(${top_dir}/src/version.h.in ${build_dir}/version.h @ONLY)
 # string(FIND "${BIG_VAR}" "THISBUILD" THIS_BUILD_START)
 
 # message(STATUS "Position of build string is ${THIS_BUILD_START}")
-
-file(READ ${top_dir}/src/version.h.in ver)
-
-string(REGEX MATCH "VERSION_RELEASE ([0-9]*)" _ ${ver})
-set(ver_release ${CMAKE_MATCH_1})
-
-string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ ${ver})
-set(ver_major ${CMAKE_MATCH_1})
-
-string(REGEX MATCH "VERSION_MINOR ([0-9]*)" _ ${ver})
-set(ver_minor ${CMAKE_MATCH_1})
-
-string(REGEX MATCH "VERSION_PATCH ([0-9]*)" _ ${ver})
-set(ver_patch ${CMAKE_MATCH_1})
-
-# increment the build number
-MATH(EXPR ver_patch "${ver_patch}+1")
-
-message("This version: ${ver_release}.${ver_major}.${ver_minor}.${ver_patch}")

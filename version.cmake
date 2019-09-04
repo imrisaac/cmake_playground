@@ -1,4 +1,4 @@
-message(STATUS "Resolving GIT Version")
+message(STATUS "Incrementing Version")
 
 set(_commit_hash "unknown")
 
@@ -35,6 +35,7 @@ set(_version_major ${ver_major})
 set(_version_minor ${ver_minor})
 set(_version_patch ${ver_patch})
 
+message(STATUS "Resolving git hash")
 find_package(Git)
 
 if(GIT_FOUND)

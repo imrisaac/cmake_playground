@@ -18,4 +18,4 @@ endif()
 
 string(TIMESTAMP _time_stamp)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/gitversion.h.in ${CMAKE_CURRENT_BINARY_DIR}/gitversion.h @ONLY)
+configure_file(${top_dir}/src/gitversion.h.in ${build_dir}/gitversion.h @ONLY)

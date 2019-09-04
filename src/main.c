@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int main() {
-  printf("This app is built from git revision: %s at %s\n", GIT_REVISION,
+  printf("This app is built from git commit: %s, commit date %s\n", GIT_REVISION,
          BUILD_TIMESTAMP);
   return 0;
 }

@@ -5,12 +5,12 @@ project(Main)
 set(_target Main)
 add_executable(${_target} src/main.c)
 
-# get git commit hash
+# get git commit hash, this always runs no matter the build state
 add_custom_command(TARGET ${_target}
   PRE_BUILD
   COMMAND ${CMAKE_COMMAND}
-    -Dlocal_dir="${CMAKE_CURRENT_SOURCE_DIR}"
-    -Doutput_dir="${CMAKE_CURRENT_BINARY_DIR}"
+    -Dtop_dir="${CMAKE_CURRENT_SOURCE_DIR}"               # top of source repo, where CMakeLists is
+    -Dbuild_dir="${CMAKE_CURRENT_BINARY_DIR}"             # this is the build directory
     -P "${CMAKE_CURRENT_SOURCE_DIR}/gitversion.cmake"
 )
 

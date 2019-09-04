@@ -3,10 +3,10 @@ message(STATUS "Resolving GIT Version")
 set(_commit_hash "unknown")
 
 # Build number incrementing
-set(_release_version 0)
-set(_major_version 1)
-set(_minor_version 1)
-set(_build_number 12)
+set(_version_release 0)
+set(_version_major 1)
+set(_version_minor 1)
+set(_version_patch 12)
 
 #MATH(EXPR _build_number "${_build_number}+1")
 
@@ -35,3 +35,22 @@ configure_file(${top_dir}/src/version.h.in ${build_dir}/version.h @ONLY)
 # string(FIND "${BIG_VAR}" "THISBUILD" THIS_BUILD_START)
 
 # message(STATUS "Position of build string is ${THIS_BUILD_START}")
+
+file(READ ${top_dir}/src/version.h.in ver)
+
+string(REGEX MATCH "VERSION_RELEASE ([0-9]*)" _ ${ver})
+set(ver_release ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_MAJOR ([0-9]*)" _ ${ver})
+set(ver_major ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_MINOR ([0-9]*)" _ ${ver})
+set(ver_minor ${CMAKE_MATCH_1})
+
+string(REGEX MATCH "VERSION_PATCH ([0-9]*)" _ ${ver})
+set(ver_patch ${CMAKE_MATCH_1})
+
+# increment the build number
+MATH(EXPR ver_patch "${ver_patch}+1")
+
+message("This version: ${ver_release}.${ver_major}.${ver_minor}.${ver_patch}")

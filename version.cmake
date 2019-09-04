@@ -56,8 +56,17 @@ if(GIT_FOUND)
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
 
+  # get branch name
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} symbolic-ref --short HEAD
+    WORKING_DIRECTORY "${local_dir}"
+    OUTPUT_VARIABLE _build_branch
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
   message( STATUS "Commit hash: ${_commit_hash}")
   message( STATUS "Commit date: ${_commit_date}")
+  message( STATUS "Build branch: ${_build_branch}")
 
 else()
   message(STATUS "GIT not found")

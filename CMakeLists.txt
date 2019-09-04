@@ -5,12 +5,13 @@ project(Main)
 set(_target Main)
 add_executable(${_target} src/main.c)
 
+# get git commit hash
 add_custom_command(TARGET ${_target}
   PRE_BUILD
   COMMAND ${CMAKE_COMMAND}
     -Dlocal_dir="${CMAKE_CURRENT_SOURCE_DIR}"
     -Doutput_dir="${CMAKE_CURRENT_BINARY_DIR}"
-    -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/gitversion.cmake"
+    -P "${CMAKE_CURRENT_SOURCE_DIR}/gitversion.cmake"
 )
 
 # for generated gitversion.h

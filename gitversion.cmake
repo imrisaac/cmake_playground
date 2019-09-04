@@ -20,4 +20,4 @@ endif()
 
 string(TIMESTAMP _time_stamp)
 
-configure_file(${local_dir}/cmake/gitversion.h.in ${output_dir}/gitversion.h @ONLY)
+configure_file(${local_dir}/src/gitversion.h.in ${output_dir}/gitversion.h @ONLY)

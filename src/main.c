@@ -6,8 +6,9 @@
 int main() {
 
   printf("This app is built from git commit: %s, commit date %s\n", GIT_REVISION,
-         BUILD_TIMESTAMP);
+         COMMIT_TIMESTAMP);
   printf("With auto build number %s\n", THISBUILD);
+  printf("Built on %s %s\n", COMPILE_DATE, COMPILE_TIME);
   return 0;
 
 }

@@ -39,13 +39,26 @@ message(STATUS "Resolving git hash")
 find_package(Git)
 
 if(GIT_FOUND)
+
+  # get commit hash
   execute_process(
     COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
     WORKING_DIRECTORY "${local_dir}"
     OUTPUT_VARIABLE _commit_hash
     OUTPUT_STRIP_TRAILING_WHITESPACE
   )
-  message( STATUS "GIT hash: ${_commit_hash}")
+
+  # get commit date and time
+  execute_process(
+    COMMAND ${GIT_EXECUTABLE} show -s --format=%ci
+    WORKING_DIRECTORY "${local_dir}"
+    OUTPUT_VARIABLE _commit_date
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+
+  message( STATUS "Commit hash: ${_commit_hash}")
+  message( STATUS "Commit date: ${_commit_date}")
+
 else()
   message(STATUS "GIT not found")
 endif()
